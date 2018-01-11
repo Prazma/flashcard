@@ -1,0 +1,202 @@
+<!doctype html>
+<html>
+	<head>
+		<title>TomoCards - The most simple flashcard webapp in the world</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+		<style>
+			body {
+				margin: 0;
+				-webkit-tap-highlight-color: rgba(0,0,0,0);
+				font-family: "Quicksand", sans-serif;
+				background: #54cdfe;
+				color: #fff;
+			}
+			#newport {
+				text-align: center;
+			}
+			.widebtn {
+				font-family: "Quicksand", sans-serif;
+				background: #fff;
+				color: #252525;
+				border: none;
+				max-width: 616px;
+				padding: 10px;
+				width: 90%;
+				border-radius: 6px;
+				margin-top: 20px;
+				font-size: 20px;
+				outline: none;
+				font-weight: normal;
+			}
+			.widebtn:disabled {
+				font-family: "Quicksand", sans-serif;
+				background: #fff;
+				color: #c6c6c6;
+				border: none;
+				max-width: 616px;
+				padding: 10px;
+				width: 90%;
+				border-radius: 6px;
+				margin-top: 20px;
+				font-size: 20px;
+				outline: none;
+				font-weight: normal;
+			}
+			#newcards {
+				text-align: center;
+			}
+			.newcardForum {
+				margin-top: 10px;
+				width: 90%;
+				max-width: 616px;
+				height: 100px;
+				border: none;
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				border-radius: 14px;
+				padding: 10px;
+				resize: none;
+				outline: none;
+				font-size: 20px;
+			}
+			.largetxt {
+				font-size: 30px;
+				font-weight: bold;
+			}
+			.alert {
+				text-align: center;
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				height: 65px;
+				background: rgba(0,0,0,0.6);
+				font-size: 20px;
+				transition: 0.5s;
+				opacity: 0;
+			}
+			#usableCards {
+				background: #fff;
+				color: #252525;
+				padding: 10px;
+				border-radius: 6px;
+				width: 90%;
+				max-width: 308px;
+				font-size: 20px;
+				height: 308px;
+				text-align: center;
+				margin-right: auto;
+				margin-left: auto;
+				margin-top: 25px;
+			}
+			#usecards {
+				text-align: center;
+			}
+			#done {
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="newport">
+			<img height="80px" style="margin-top: 20px; margin-bottom: 20px;" src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjMycHgiIGhlaWdodD0iMzJweCIgdmlld0JveD0iMCAwIDE1MS44NTEgMTUxLjg1MSIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTUxLjg1MSAxNTEuODUxOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTEwNS45ODcsNDUuMzFoMjIuNDA4bC0xMS45MDQtMTUuNTg4bDExLjkwNC0xNS41ODhoLTIyLjQwOHYtMS4wNkMxMDUuOTg3LDUuODY3LDEwMC4zNjEsMCw5My40MzIsMCAgICBjLTYuOTExLDAtMTIuNTU2LDUuODYxLTEyLjU1NiwxMy4wNzR2MjguMjAyYy0xLjk4Mi0xLjMyOC00LjM0NS0yLjExOS02Ljg5LTIuMTE5Yy0zLjc2NiwwLTcuMTI3LDEuNzI2LTkuNDUzLDQuNDIgICAgYy0yLjMzMy0yLjY5NS01LjY4OC00LjQyLTkuNDY2LTQuNDJjLTMuNzY2LDAtNy4xMjUsMS43MjYtOS40NSw0LjQyYy0yLjMyNi0yLjY5NS01LjY4OC00LjQyLTkuNDU5LTQuNDIgICAgYy02Ljc3MSwwLTEyLjI4NSw1LjUwNC0xMi42MzIsMTIuMzgybC0wLjA3LDAuMzQ0djAuMzU2djEyLjc5M3Y3LjQwMXYyNi40OTF2Ny43NDVjMCwyNi42MSwyMC45MzgsNDUuMTgyLDUwLjk0Miw0NS4xODIgICAgYzMwLjAwNywwLDUwLjk0MS0xOC41NzEsNTAuOTQxLTQ1LjE4MlY3NS4yNWMwLTIuMDEyLTEuNTY0LTQuMjkyLTIuNjE4LTUuMTljLTIuMTQ5LTEuODY2LTkuMzA1LTMuMzEyLTE2Ljc4Mi00LjM3MmwwLjAzNy0wLjE2OCAgICBWNDUuMzE2aDAuMDEyVjQ1LjMxeiBNODcuMTIzLDQ1LjMxaDEyLjYyOXYxOS41ODVjLTIuNjQzLTAuMzA0LTUuMTY5LTAuNTYtNy4zMzEtMC43NjdjLTIuMDIxLTAuMjEtMy43NDUtMC4xNjctNS4zMS0wLjAxMiAgICBMODcuMTIzLDQ1LjMxTDg3LjEyMyw0NS4zMXogTTExNS44MDQsMzkuMDc0SDg4LjAyNFYyMC4zNjloMjcuNzc5bC03LjE0OSw5LjM1M0wxMTUuODA0LDM5LjA3NHogTTkzLjQ1Niw2LjIzNSAgICBjMy40ODMsMCw2LjMwOSwzLjA2LDYuMzA5LDYuODM4djEuMDZIODcuMTM2di0xLjA2Qzg3LjEyMyw5LjI5NSw4OS45NjEsNi4yMzUsOTMuNDU2LDYuMjM1eiBNNzMuOTg2LDQ1LjM5OCAgICBjMy41NjUsMCw2LjQ3NiwzLjA2OSw2LjQ3Niw2Ljg1NHYxMi43NWwwLjI1NiwxLjIyMWMtMi4yMzUsMS41MS0zLjUyNSwzLjU1Ni00LjI0NCw1LjQ5NmMtMC44ODcsMi40MTEtMC45NDEsNC45MzItMC4zNjIsNy4yODIgICAgYy0wLjU2MSwwLjE3MS0xLjE0NiwwLjI4LTEuNzQ1LDAuMjhjLTMuNDc5LDAtNi4yNzctMi45MzUtNi40MDgtNi41NzlsMC4wMjQtMC4yNjhWNTEuNzQ2bC0wLjE4My0wLjkxICAgIEM2OC40MzYsNDcuNzQyLDcwLjg5Myw0NS4zOTgsNzMuOTg2LDQ1LjM5OHogTTU1LjA4OCw0NS4zOThjMy4yNDksMCw1Ljg0OSwyLjYwNiw2LjI5Niw1LjkxNmwtMC4xMDEsMC45MjV2MjEuMDYybDAuMTQzLDAuNzM3ICAgIGMtMC42OTEsMi45NzctMy4xMyw1LjIzMS02LjE0Nyw1LjIzMWMtMy40NSwwLTYuMTk5LTIuODc1LTYuMzk3LTYuNDYxbDAuMDA2LTAuMDN2LTAuMzYyVjUyLjIzOXYtMC41MDVsLTAuMDg4LTAuNDM4ICAgIEM0OS4yNTgsNDcuOTkyLDUxLjg0LDQ1LjM5OCw1NS4wODgsNDUuMzk4eiBNMjkuNzE1LDY1LjAzMlY1Mi4yMzljMC0zLjc3MiwyLjkwMS02Ljg0Nyw2LjQ2Ny02Ljg0NyAgICBjMy4yNTQsMCw1Ljg0OSwyLjU5NCw2LjI5Niw1LjkxbC0wLjA5MSwwLjkzMnYyMS41ODZjLTAuNjM2LDMuMDgxLTMuMDk5LDUuNDQ0LTYuMTk5LDUuNDQ0Yy0zLjU2NSwwLTYuNDczLTMuMDY5LTYuNDczLTYuODQ4ICAgIFY2NS4wMzJ6IE0xMTguNjI5LDc0LjczNWwwLjQ5OSwwLjUxNHYzMS40MmMwLDIyLjkzMi0xOC4zNzcsMzguOTQ3LTQ0LjcwNywzOC45NDdjLTI2LjMyMywwLTQ0LjcwNi0xNi4wMTYtNDQuNzA2LTM4Ljk0N3YtNy43NDUgICAgVjgzLjYyOGMxLjkwOSwxLjE2OSw0LjA5OCwxLjg4OCw2LjQ3MywxLjg4OGMzLjgyMSwwLDcuMjE2LTEuNzg0LDkuNTQ4LTQuNTQyYzIuMzIzLDIuNzQ2LDUuNzI0LDQuNTQyLDkuNTQ1LDQuNTQyICAgIGMzLjgxNCwwLDcuMjA5LTEuNzg0LDkuNTM5LTQuNTQyYzIuMzMyLDIuNzQ2LDUuNzI3LDQuNTQyLDkuNTQ3LDQuNTQyYzEuNjQyLDAsMy4yMzYtMC40MTQsNC43NDQtMS4wNDggICAgYzEuNDQ5LDEuNjI3LDMuMjg4LDIuOTczLDUuNTQxLDMuNzg4bDE5Ljg5OSw1LjUwNWMxLjY0NCwwLjQzOCwzLjM3OS0wLjUyMywzLjgzNi0yLjE5MmMwLjQ1LTEuNjU2LTAuNTE4LTMuMzc0LTIuMTgtMy44MjQgICAgbC0xOS42NTYtNS40MTljLTMuNTU2LTEuMzE1LTUuNDQ5LTUuMTA0LTQuMjI2LTguNDY0YzAuNDg3LTEuMzE1LDEuNTgzLTQuNDI3LDkuNDU2LTMuNTE3ICAgIEMxMDMuMDg5LDcxLjM3NCwxMTYuNTk1LDczLjM4LDExOC42MjksNzQuNzM1eiIgZmlsbD0iI0ZGRkZGRiIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=" /><br>
+			<span>TomoCards</span><br>
+			<button class="widebtn" onclick="create()">Create Cards</button><br>
+			<button id="useBTN" class="widebtn" onclick="opnProgram()" disabled>Use Cards</button>
+		</div>
+		<div id="newcards" style="display: none">
+			<br><span class="largetxt">Create Cards</span><br>
+			<textarea class="newcardForum" id="newQ" placeholder="Enter Question"></textarea><br>
+			<textarea class="newcardForum" id="newA" placeholder="Enter Answer"></textarea><br>
+			<button class="widebtn" onclick="cardGen()">Create</button><br>
+			<button class="widebtn" onclick="home()">Main Menu</button>
+		</div>
+		<div id="usecards" style="display: none">
+			<div id="usableCards">Loading Content</div>
+			<button class="widebtn" id="actionbtn" onclick="flipORnext()">Flip Card</button><br>
+			<button class="widebtn" onclick="home()">Main Menu</button>
+		</div>
+		<div id="done" style="display: none;">
+			<br><span class="largetxt">No More Cards!</span><br>
+			<button class="widebtn" onclick="exitCard()">Main Menu</button>
+		</div>
+		<div class="alert" id="bannerAL"><p>Card Created and Saved!</p></div>
+		<script>
+			var cardSelect = 0;
+			var step = 1;
+			var cardQ = [];
+			var cardA = [];
+			if( localStorage.cardQ ) {
+				document.getElementById("useBTN").disabled = false;
+			} else {
+				localStorage.cardQ;
+			}
+			if( localStorage.cardA ) {
+				document.getElementById("useBTN").disabled = false;
+			} else {
+				localStorage.cardA;
+			}
+			function create() {
+				document.getElementById("newport").style.display = "none";
+				document.getElementById("newcards").style.display = "block";
+			}
+			function cardGen() {
+				var newQ = document.getElementById("newQ").value;
+				var newA = document.getElementById("newA").value;
+				cardQ.push(newQ);
+				cardA.push(newA);
+				if( newQ != "" && newA != "" ) {
+					document.getElementById("useBTN").disabled = false;
+					document.getElementById("bannerAL").innerHTML = "<p>Card Created and Saved!</p>";
+					document.getElementById("bannerAL").style.opacity = "1";
+					document.getElementById("newQ").value = "";
+					document.getElementById("newA").value = "";
+					setTimeout( function () {
+						document.getElementById("bannerAL").style.opacity = "0";
+					}, 1000)
+				} else {
+					document.getElementById("bannerAL").innerHTML = "<p>The card is missing something...</p>";
+					document.getElementById("bannerAL").style.opacity = "1";
+					setTimeout( function () {
+						document.getElementById("bannerAL").style.opacity = "0";
+					}, 1000)
+				}
+			}
+			function home() {
+				document.getElementById("newport").style.display = "block";
+				document.getElementById("newcards").style.display = "none";
+				document.getElementById("usecards").style.display = "none";
+				document.getElementById("done").style.display = "none";
+			}
+			function opnProgram() {
+				document.getElementById("newport").style.display = "none";
+				document.getElementById("newcards").style.display = "none";
+				document.getElementById("usecards").style.display = "block";
+				document.getElementById("usableCards").innerHTML = cardQ[0];
+			}
+			function flipORnext() {
+				step += 1;
+				if( step <= cardA.length * 2 + 1) {
+					if( step == cardA.length * 2 + 1 ) {
+						document.getElementById("done").style.display = "block";
+						document.getElementById("usecards").style.display = "none";
+					} else {
+						if( step % 2 == 0 ) {
+							document.getElementById("actionbtn").innerHTML = "Next Card";
+							document.getElementById("usableCards").innerHTML = cardA[cardSelect];
+						} else {
+							document.getElementById("actionbtn").innerHTML = "Flip Card";
+							cardSelect += 1;
+							document.getElementById("usableCards").innerHTML = cardQ[cardSelect];
+						}
+					}
+				}
+			}
+			function exitCard() {
+					cardSelect = 0;
+					step = 1;
+					home();
+			}
+		</script>
+	</body>
+</html>
